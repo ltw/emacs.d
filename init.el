@@ -44,6 +44,10 @@
 (set-face-background 'region "LightCyan") ; color of marked region
 (defalias 'yes-or-no-p 'y-or-n-p)
 
+;; thee tabs, thee
+(setq tab-width 2
+      indent-tabs-mode nil)
+
 ;; disable scroll bars, tool bars and menu bars.
 (dolist (mode '(scroll-bar-mode tool-bar-mode menu-bar-mode))
   (when (fboundp mode) (funcall mode -1)))
