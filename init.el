@@ -30,16 +30,16 @@
 (load-theme 'jujube t)
 
 ;; general configuration options
-(setq require-final-newline "ask")        ; insure all files end in \n
-(setq print-escape-newlines t)            ; newlines in strings get print as \n
-(setq find-file-visit-truename t)         ; load file symbolic link points at
-(setq completion-auto-help t)             ; I want as much help as I can get
-(setq max-lisp-eval-depth 1500)           ; seems to let me have more open files
-(setq visible-bell t)                     ; noise is evil
-(setq kill-whole-line t)                  ; include new-line with ctrl-k
-(setq case-fold-search t)                 ; make searches case insensitive
-(setq make-backup-files nil)              ; "No. More. Tilde. Files!" -- Faye Dunaway
-(setq sentence-end-double-space nil)      ; don't put two spaces after a dang sentence
+(setq require-final-newline "ask"         ; insure all files end in \n
+      print-escape-newlines t             ; newlines in strings get print as \n
+      find-file-visit-truename t          ; load file symbolic link points at
+      completion-auto-help t              ; I want as much help as I can get
+      max-lisp-eval-depth 1500            ; seems to let me have more open files
+      visible-bell t                      ; noise is evil
+      kill-whole-line t                   ; include new-line with ctrl-k
+      case-fold-search t                  ; make searches case insensitive
+      make-backup-files nil               ; "No. More. Tilde. Files!" -- Faye Dunaway
+      sentence-end-double-space nil)      ; don't put two spaces after a dang sentence
 (transient-mark-mode t)                   ; show marked region
 (set-face-background 'region "LightCyan") ; color of marked region
 
@@ -48,9 +48,9 @@
   (when (fboundp mode) (funcall mode -1)))
 
 ;; clipboard
-(setq x-select-enable-clipboard t)		; kill-ring merged with clipboard
-(setq kill-ring-max 200)                        ; a bigger kill-ring (default = 30)
-(if (eq system-type 'darwin)                    ; integrate with mac clipboard
+(setq x-select-enable-clipboard t ; kill-ring merged with clipboard
+      kill-ring-max 200)          ; a bigger kill-ring (default = 30)
+(if (eq system-type 'darwin)       ; integrate with mac clipboard
     (progn
       (defun mac-copy ()
         (shell-command-to-string "pbpaste"))
