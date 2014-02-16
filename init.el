@@ -42,6 +42,7 @@
       case-fold-search t                  ; make searches case insensitive
       make-backup-files nil               ; "No. More. Tilde. Files!" -- Faye Dunaway
       sentence-end-double-space nil)      ; don't put two spaces after a dang sentence
+(delete-selection-mode t)                 ; overwrite a current marked selection when typing
 (transient-mark-mode t)                   ; show marked region
 (set-face-background 'region "LightCyan") ; color of marked region
 (defalias 'yes-or-no-p 'y-or-n-p)
