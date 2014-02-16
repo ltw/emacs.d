@@ -87,8 +87,9 @@
 (setq whitespace-style '(face trailing tabs))            ; select certain types of whitespace for highlighting
 
 ;; enable ido everywhere with fuzzy-matching
-(setq ido-enable-flex-matching t)
-(setq ido-everywhere t)
+(setq ido-enable-flex-matching t
+      ido-use-virtual-buffers t
+      ido-everywhere t)
 (ido-mode 1)
 
 ;; better filename distinguishing
