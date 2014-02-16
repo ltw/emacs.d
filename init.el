@@ -22,6 +22,7 @@
 (defvar my-packages
   '(color-theme
     jujube-theme
+    auto-complete
     markdown-mode))
 (dolist (p my-packages) (package-require p))
 
@@ -100,3 +101,7 @@
 (setq scroll-step            1      ; how many lines to scroll at a time
       scroll-margin          3      ; start scrolling 3 lines from edge
       scroll-conservatively  10000) ; move judiciously
+
+;; auto-complete
+(require 'auto-complete-config)
+(ac-config-default)
