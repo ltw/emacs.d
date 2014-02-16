@@ -1,5 +1,10 @@
 ;;; FED - Fun Emacs Development! YAY
 
+;; add .emacs.d to load-path
+(setq dotfiles-dir (file-name-directory
+                    (or (buffer-file-name) load-file-name)))
+(add-to-list 'load-path dotfiles-dir)
+
 ;; package.el configuration
 (require 'package)
 (dolist (source '(("melpa" . "http://melpa.milkbox.net/packages/")
