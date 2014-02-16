@@ -40,6 +40,7 @@
 (setq kill-whole-line t)                  ; include new-line with ctrl-k
 (setq case-fold-search t)                 ; make searches case insensitive
 (setq make-backup-files nil)              ; "No. More. Tilde. Files!" -- Faye Dunaway
+(setq sentence-end-double-space nil)      ; don't put two spaces after a dang sentence
 (transient-mark-mode t)                   ; show marked region
 (set-face-background 'region "LightCyan") ; color of marked region
 
