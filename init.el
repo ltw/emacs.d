@@ -23,6 +23,7 @@
   '(color-theme
     jujube-theme
     auto-complete
+    smex
     markdown-mode))
 (dolist (p my-packages) (package-require p))
 
@@ -101,6 +102,12 @@
 (setq scroll-step            1      ; how many lines to scroll at a time
       scroll-margin          3      ; start scrolling 3 lines from edge
       scroll-conservatively  10000) ; move judiciously
+
+;; make M-x so much smarter with smex
+(setq smex-save-file (expand-file-name ".smex-items" user-emacs-directory))
+(smex-initialize)
+(global-set-key (kbd "M-x") 'smex)
+(global-set-key (kbd "M-X") 'smex-major-mode-commands)
 
 ;; auto-complete
 (require 'auto-complete-config)
