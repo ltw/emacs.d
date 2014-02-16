@@ -118,11 +118,12 @@
 
 (add-hook 'clojure-mode-hook            ; when in clojure-mode
           (lambda ()
-            (paredit-mode +1)           ; enable paredit
-            (whitespace-mode +1)        ; show whitespace and provide tools to clean it up
+            (dolist (mode '(paredit-mode
+                            whitespace-mode
+                            show-paren-mode))
+              (funcall mode +1))
             (tweak-clojure-syntax)
             (setq-default tab-width 2)
-            (show-paren-mode +1)        ; highlight currently selected parens
             (define-key clojure-mode-map (kbd "C-c C-a") 'align-cljlet)))
 
 (dolist (macro '(fresh conde run run* for-all))
