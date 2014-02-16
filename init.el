@@ -42,6 +42,7 @@
       sentence-end-double-space nil)      ; don't put two spaces after a dang sentence
 (transient-mark-mode t)                   ; show marked region
 (set-face-background 'region "LightCyan") ; color of marked region
+(defalias 'yes-or-no-p 'y-or-n-p)
 
 ;; disable scroll bars, tool bars and menu bars.
 (dolist (mode '(scroll-bar-mode tool-bar-mode menu-bar-mode))
