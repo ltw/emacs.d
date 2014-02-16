@@ -89,6 +89,10 @@
 (setq-default indent-tabs-mode nil)                      ; never insert tab literals
 (setq whitespace-style '(face trailing tabs))            ; select certain types of whitespace for highlighting
 
+;; kill dat splash screen
+(setq inhibit-splash-screen t
+      initial-scratch-message nil)
+
 ;; enable ido everywhere with fuzzy-matching
 (setq ido-enable-flex-matching t
       ido-use-virtual-buffers t
