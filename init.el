@@ -19,7 +19,6 @@
                       cider
                       align-cljlet
                       color-theme
-                      color-theme-twilight
                       jujube-theme
                       markdown-mode
                       paredit))
