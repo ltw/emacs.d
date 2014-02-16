@@ -72,6 +72,9 @@
 (global-set-key (kbd "C-x <up>")    'windmove-up)
 (global-set-key (kbd "C-x <down>")  'windmove-down)
 
+;; Always newline-and-indent
+(global-set-key (kbd "RET")         'newline-and-indent)
+
 ;; enable line / column numbers
 (column-number-mode t)                                   ; show column numbers in mode bar
 (add-hook 'find-file-hook (lambda () (linum-mode 1)))    ; after loading a file, enable line numbers
