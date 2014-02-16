@@ -77,8 +77,7 @@
 
 ;; enable line / column numbers
 (column-number-mode t)                                   ; show column numbers in mode bar
-(add-hook 'find-file-hook (lambda () (linum-mode 1)))    ; after loading a file, enable line numbers
-(linum-mode t)                                           ; show line numbers on left hand margin
+(global-linum-mode t)                                    ; show line numbers on left hand margin
 (setq linum-format "%3d ")                               ; pad line numbers with a right-hand space. also enforce 3-char line-number
 (setq-default indent-tabs-mode nil)                      ; never insert tab literals
 (setq whitespace-style '(face trailing tabs))            ; select certain types of whitespace for highlighting
