@@ -169,5 +169,11 @@
 (global-set-key (kbd "C-x M-t") 'cleanup-region)
 (global-set-key (kbd "C-c n") 'cleanup-buffer)
 
+;; use markdown-mode for markdown files
+(autoload 'markdown-mode "markdown-mode"
+     "Major mode for editing Markdown files" t)
+(add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
+(add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
+
 (custom-set-faces
  '(powerline-active1 ((t (:inherit mode-line :background "color-125")))))
