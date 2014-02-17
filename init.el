@@ -5,6 +5,12 @@
                     (or (buffer-file-name) load-file-name)))
 (add-to-list 'load-path dotfiles-dir)
 
+;; always use utf-8. we write software for the whole world.
+(set-terminal-coding-system 'utf-8)
+(set-keyboard-coding-system 'utf-8)
+(prefer-coding-system 'utf-8)
+(load-library "iso-transl")
+
 ;; package.el configuration
 (require 'package)
 (dolist (source '(("melpa" . "http://melpa.milkbox.net/packages/")
