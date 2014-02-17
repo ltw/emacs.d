@@ -29,11 +29,14 @@
   '(color-theme
     jujube-theme
     auto-complete
+    powerline
     smex
     markdown-mode))
 (dolist (p my-packages) (package-require p))
 
 (require 'clojure)         ; load clojure-specific configurations
+(require 'powerline)
+(powerline-default-theme)
 
 (load-theme 'jujube t)
 
@@ -150,3 +153,6 @@
 
 (global-set-key (kbd "C-x M-t") 'cleanup-region)
 (global-set-key (kbd "C-c n") 'cleanup-buffer)
+
+(custom-set-faces
+ '(powerline-active1 ((t (:inherit mode-line :background "color-125")))))
