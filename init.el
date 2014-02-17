@@ -41,7 +41,7 @@
 (load-theme 'jujube t)
 
 ;; general configuration options
-(setq require-final-newline "ask"         ; insure all files end in \n
+(setq require-final-newline "visit-save"  ; ensure all files end in \n
       print-escape-newlines t             ; newlines in strings get print as \n
       find-file-visit-truename t          ; load file symbolic link points at
       completion-auto-help t              ; I want as much help as I can get
