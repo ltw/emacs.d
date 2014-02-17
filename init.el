@@ -56,6 +56,10 @@
 (set-face-background 'region "LightCyan") ; color of marked region
 (defalias 'yes-or-no-p 'y-or-n-p)
 
+;; Write backup files to own directory
+(setq backup-directory-alist
+      `(("." . ,(expand-file-name (concat dotfiles-dir "bak")))))
+
 ;; thee tabs, thee
 (setq tab-width 2
       indent-tabs-mode nil)
