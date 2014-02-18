@@ -41,19 +41,20 @@
 (load-theme 'jujube t)
 
 ;; general configuration options
-(setq require-final-newline "visit-save"  ; ensure all files end in \n
-      print-escape-newlines t             ; newlines in strings get print as \n
-      find-file-visit-truename t          ; load file symbolic link points at
-      completion-auto-help t              ; I want as much help as I can get
-      max-lisp-eval-depth 1500            ; seems to let me have more open files
-      visible-bell t                      ; noise is evil
-      kill-whole-line t                   ; include new-line with ctrl-k
-      case-fold-search t                  ; make searches case insensitive
-      make-backup-files nil               ; "No. More. Tilde. Files!" -- Faye Dunaway
-      sentence-end-double-space nil)      ; don't put two spaces after a dang sentence
-(delete-selection-mode t)                 ; overwrite a current marked selection when typing
-(transient-mark-mode t)                   ; show marked region
-(set-face-background 'region "LightCyan") ; color of marked region
+(setq require-final-newline "visit-save"     ; ensure all files end in \n
+      print-escape-newlines t                ; newlines in strings get print as \n
+      find-file-visit-truename t             ; load file symbolic link points at
+      completion-auto-help t                 ; I want as much help as I can get
+      max-lisp-eval-depth 1500               ; seems to let me have more open files
+      visible-bell t                         ; noise is evil
+      kill-whole-line t                      ; include new-line with ctrl-k
+      case-fold-search t                     ; make searches case insensitive
+      make-backup-files nil                  ; "No. More. Tilde. Files!" -- Faye Dunaway
+      save-interprogram-paste-before-kill t  ; guarantees the thing you're overwriting ends up on kill ring
+      sentence-end-double-space nil)         ; don't put two spaces after a dang sentence
+(delete-selection-mode t)                    ; overwrite a current marked selection when typing
+(transient-mark-mode t)                      ; show marked region
+(set-face-background 'region "LightCyan")    ; color of marked region
 (defalias 'yes-or-no-p 'y-or-n-p)
 
 ;; Write backup files to own directory
@@ -92,8 +93,13 @@
 (global-set-key (kbd "C-x <right>") 'windmove-right)
 (global-set-key (kbd "C-x <up>")    'windmove-up)
 (global-set-key (kbd "C-x <down>")  'windmove-down)
-(global-set-key (kbd "RET")         'newline-and-indent)          ; always newline-and-indent
-(global-set-key (kbd "C-;")         'comment-or-uncomment-region) ; comments are nice
+
+
+;; various key bindings
+(global-set-key (kbd "C-x C-b") 'ibuffer)                          ; nicer buffer listing
+(global-set-key (kbd "M-/") 'hippie-expand)                        ; much nicer expansion
+(global-set-key (kbd "RET")         'newline-and-indent)           ; always newline-and-indent
+(global-set-key (kbd "C-;")         'comment-or-uncomment-region)  ; comments are nice
 
 ;; enable line / column numbers
 (column-number-mode t)                                   ; show column numbers in mode bar
@@ -115,6 +121,11 @@
 ;; better filename distinguishing
 (require 'uniquify)
 (setq uniquify-buffer-name-style 'forward)
+
+;; keep track of where I left off in files
+(require 'saveplace)
+(setq-default save-place t)
+(setq save-place-file (concat user-emacs-directory "places"))
 
 ;; enable smooth scrolling with a 3-line margin
 (setq scroll-step            1      ; how many lines to scroll at a time
