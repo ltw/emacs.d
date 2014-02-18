@@ -57,6 +57,9 @@
 (set-face-background 'region "LightCyan")    ; color of marked region
 (defalias 'yes-or-no-p 'y-or-n-p)
 
+; don't bug me before saving
+(add-hook 'find-file-hook (lambda () (setq buffer-save-without-query t)))
+
 ;; Write backup files to own directory
 (setq backup-directory-alist
       `(("." . ,(expand-file-name (concat dotfiles-dir "bak")))))
