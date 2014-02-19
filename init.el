@@ -30,11 +30,18 @@
     jujube-theme
     auto-complete
     powerline
+    rainbow-delimiters
     smex
     markdown-mode))
+
 (dolist (p my-packages) (package-require p))
 
 (require 'clojure)         ; load clojure-specific configurations
+
+(require 'rainbow-delimiters)  ; pretty parens
+(add-hook 'clojure-mode-hook 'rainbow-delimiters-mode)
+(add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
+
 (require 'powerline)
 (powerline-default-theme)
 
@@ -42,7 +49,7 @@
 
 ;; general configuration options
 (setq require-final-newline "visit-save"     ; ensure all files end in \n
-      print-escape-newlines t                ; newlines in strings get print as \n
+      print-escape-newlines t                ; newlines in strings get print as \n (well, it's supposed to work that way)
       find-file-visit-truename t             ; load file symbolic link points at
       completion-auto-help t                 ; I want as much help as I can get
       max-lisp-eval-depth 1500               ; seems to let me have more open files
@@ -68,6 +75,17 @@
 (setq tab-width 2
       indent-tabs-mode nil)
 
+;; save history
+;;  we save kill ring and search rings too
+(setq savehist-additional-variables
+      '(kill-ring search-ring regexp-search-ring))
+(setq savehist-file (expand-file-name (concat dotfiles-dir ".savehist")))
+(setq history-length 1000)
+(require 'savehist)
+(savehist-mode t)
+
+(add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p)
+
 ;; disable scroll bars, tool bars and menu bars.
 (dolist (mode '(scroll-bar-mode tool-bar-mode menu-bar-mode))
   (when (fboundp mode) (funcall mode -1)))
@@ -81,10 +99,10 @@
         (shell-command-to-string "pbpaste"))
 
       (defun mac-paste (text &optional push)
-        (let ((process-connection-type nil)) 
-            (let ((proc (start-process "pbcopy" "*Messages*" "pbcopy")))
-                  (process-send-string proc text)
-                      (process-send-eof proc))))
+        (let ((process-connection-type nil))
+          (let ((proc (start-process "pbcopy" "*Messages*" "pbcopy")))
+            (process-send-string proc text)
+            (process-send-eof proc))))
 
       (setq interprogram-cut-function 'mac-paste)
       (setq interprogram-paste-function 'mac-copy)
@@ -103,6 +121,7 @@
 (global-set-key (kbd "M-/") 'hippie-expand)                        ; much nicer expansion
 (global-set-key (kbd "RET")         'newline-and-indent)           ; always newline-and-indent
 (global-set-key (kbd "C-;")         'comment-or-uncomment-region)  ; comments are nice
+(global-set-key (kbd "C-x C-j") 'goto-line)
 
 ;; enable line / column numbers
 (column-number-mode t)                                   ; show column numbers in mode bar
@@ -128,7 +147,7 @@
 ;; keep track of where I left off in files
 (require 'saveplace)
 (setq-default save-place t)
-(setq save-place-file (concat user-emacs-directory "places"))
+(setq save-place-file (concat user-emacs-directory ".places"))
 
 ;; enable smooth scrolling with a 3-line margin
 (setq scroll-step            1      ; how many lines to scroll at a time
@@ -178,5 +197,71 @@
 (add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
 (add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
 
+;; buffer navigation
+;; ----------------------------------------------------------------------
+;;     Original yic-buffer.el
+;;     From: choo@cs.yale.edu (young-il choo)
+;;     Date: 7 Aug 90 23:39:19 GMT
+;;
+;;     Little more sophisticated for my private use:
+;;     Aug 7 1995 "Jari Aalto" <jaalto@tre.tele.nokia.fi> Public domain.
+;;
+;;     Added nrepl to yic-ignore-re
+;;     Feb 19 2014 "Jason Yanowitz" <f@ug.ly>
+;; ----------------------------------------------------------------------
+
+(defconst yic-ignore-re
+  (concat
+   "^ "                 ;hidden buffers
+   "\\|completion\\|summary"
+   "\\|buffer list\\|help$\\|ispell\\|abbrev"
+   "\\|nrepl"
+   "\\|temp\\|tmp\\|post\\|tff"
+   )
+  "*Buffers to ignore when changing to another.")
+
+(defun yic-next (list)
+  "Switch to next buffer in list, skipping unwanted ones."
+  (let* ((re  yic-ignore-re)
+         buffer go
+         )
+    (while (and list (null go))
+      (setq buffer (car list))
+      (if (string-match re (buffer-name buffer))                ;skip over
+          (setq list (cdr list))
+        (setq go buffer)))
+    (if go   (switch-to-buffer go))
+    ))
+
+(defun yic-prev-buffer ()
+  "Switch to previous buffer in current window."
+  (interactive)
+  (yic-next (reverse (buffer-list))))
+
+(defun yic-next-buffer ()
+  "Switch to the other buffer (2nd in list-buffer) in current window."
+  (interactive)
+  (bury-buffer (current-buffer))
+  (yic-next (buffer-list)))
+
+(global-set-key "\M-n" 'yic-prev-buffer)
+(global-set-key "\M-m" 'yic-next-buffer)
+
+(defun yic-config-keys ()
+  "config keys for various modes"
+  (local-set-key "\M-n" 'yic-prev-buffer)
+  (local-set-key "\M-m" 'yic-next-buffer))
+
 (custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
  '(powerline-active1 ((t (:inherit mode-line :background "color-125")))))
+
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(safe-local-variable-values (quote ((encoding . utf-8)))))

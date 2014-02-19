@@ -36,6 +36,7 @@
                             show-paren-mode))
               (funcall mode +1))
             (tweak-clojure-syntax)
+            (add-hook 'write-contents-function 'cleanup-buffer) ; every time we save the file
             (setq-default tab-width 2)
             (define-key clojure-mode-map (kbd "C-c C-a") 'align-cljlet)))
 
