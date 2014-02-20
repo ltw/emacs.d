@@ -5,12 +5,15 @@
     clojure-test-mode
     cider
     align-cljlet
+    rainbow-delimiters
     paredit))
 (dolist (p clojure-packages) (package-require p))
 
 (require 'clojure-test-mode)
 (require 'paredit)
 (require 'align-cljlet)
+(require 'rainbow-delimiters)  ; pretty parens
+
 
 (defmacro defclojureface (name color desc &optional others)
   `(defface ,name '((((class color)) (:foreground ,color ,@others))) ,desc :group 'faces))
@@ -18,29 +21,40 @@
 (defclojureface clojure-brackets "blue" "Clojure brackets")
 (defclojureface clojure-keyword "#bfebbf" "Clojure keywords")
 
-(defun tweak-clojure-syntax ()
-  (dolist (x '((("#?['`]*(\\|)" . 'clojure-parens))
-               (("#?\\^?{\\|}" . 'clojure-brackets))
-               (("\\[\\|\\]" . 'clojure-braces))
-               ((":\\w+#?" . 'clojure-keyword))
-               (("#?\"" 0 'clojure-double-quote prepend))
-               (("nil\\|true\\|false\\|%[1-9]?" . 'clojure-special))
-               (("(\\(\\.[^ \n)]*\\|[^ \n)]+\\.\\|new\\)\\([ )\n]\\|$\\)" 1 'clojure-java-call))
-               ))
-    (font-lock-add-keywords nil x)))
+;; some of these faces aren't defined. we need to debug.
+;; (defun tweak-clojure-syntax ()
+;;   (dolist (x '((("#?['`]*(\\|)" . 'clojure-parens))
+;;                (("#?\\^?{\\|}" . 'clojure-brackets))
+;;                (("\\[\\|\\]" . 'clojure-braces))
+;;                ((":\\w+#?" . 'clojure-keyword))
+;;                (("#?\"" 0 'clojure-double-quote prepend))
+;;                (("nil\\|true\\|false\\|%[1-9]?" . 'clojure-special))
+;;                (("(\\(\\.[^ \n)]*\\|[^ \n)]+\\.\\|new\\)\\([ )\n]\\|$\\)" 1 'clojure-java-call))
+;;                ))
+;;     (font-lock-add-keywords nil x)))
 
-(add-hook 'clojure-mode-hook            ; when in clojure-mode
+(defun reload-buffer-if-cider-running ()
+  (interactive)
+  (if (cider-connected-p)
+      (cider-load-current-buffer)))
+
+(add-hook 'clojure-mode-hook
           (lambda ()
-            (dolist (mode '(paredit-mode
-                            whitespace-mode
-                            show-paren-mode))
-              (funcall mode +1))
-            (tweak-clojure-syntax)
-            (add-hook 'write-contents-function 'cleanup-buffer) ; every time we save the file
+;            (tweak-clojure-syntax)
+            (add-hook 'write-contents-functions 'cleanup-buffer ) ; every time we save the file
+            (add-hook 'after-save-hook 'reload-buffer-if-cider-running nil 'make-local) ; every time we save the file
             (setq-default tab-width 2)
+            (paredit-mode)
+            (whitespace-mode)
+            (rainbow-delimiters-mode)
+            (show-paren-mode)
             (define-key clojure-mode-map (kbd "C-c C-a") 'align-cljlet)))
 
 (dolist (macro '(fresh conde run run* for-all))
   (put-clojure-indent macro 'defun))
+
+(setq cider-repl-wrap-history t)    ; FIFO
+(setq cider-repl-history-size 1000) ; default 500
+(setq cider-repl-history-file (expand-file-name (concat dotfiles-dir ".cider-repl-history")))
 
 (provide 'clojure)

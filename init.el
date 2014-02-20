@@ -30,17 +30,11 @@
     jujube-theme
     auto-complete
     powerline
-    rainbow-delimiters
     smex
     markdown-mode))
 
 (dolist (p my-packages) (package-require p))
 
-(require 'clojure)         ; load clojure-specific configurations
-
-(require 'rainbow-delimiters)  ; pretty parens
-(add-hook 'clojure-mode-hook 'rainbow-delimiters-mode)
-(add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
 
 (require 'powerline)
 (powerline-default-theme)
@@ -190,6 +184,8 @@
 
 (global-set-key (kbd "C-x M-t") 'cleanup-region)
 (global-set-key (kbd "C-c n") 'cleanup-buffer)
+
+(require 'clojure)         ; load clojure-specific configurations
 
 ;; use markdown-mode for markdown files
 (autoload 'markdown-mode "markdown-mode"
