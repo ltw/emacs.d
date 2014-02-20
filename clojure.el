@@ -35,7 +35,7 @@
 
 (defun reload-buffer-if-cider-running ()
   (interactive)
-  (if (cider-connected-p)
+  (if (and (cider-connected-p) (string= "(ns " (buffer-substring-no-properties 1 5)))
       (cider-load-current-buffer)))
 
 (add-hook 'clojure-mode-hook
