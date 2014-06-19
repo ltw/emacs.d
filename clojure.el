@@ -50,8 +50,11 @@
             (show-paren-mode)
             (define-key clojure-mode-map (kbd "C-c C-a") 'align-cljlet)))
 
-(dolist (macro '(fresh conde run run* for-all))
+(dolist (macro '(fresh conde run run* for-all defroutes describe it))
   (put-clojure-indent macro 'defun))
+
+(dolist (route '(GET POST PUT DELETE HEAD ANY context))
+  (put-clojure-indent route 2))
 
 (setq cider-repl-wrap-history t)    ; FIFO
 (setq cider-repl-history-size 1000) ; default 500
