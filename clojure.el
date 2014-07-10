@@ -44,6 +44,7 @@
             (whitespace-mode)
             (rainbow-delimiters-mode)
             (show-paren-mode)
+            (define-key clojure-mode-map (kbd "C-\\") 'clojure-toggle-keyword-string)
             (define-key clojure-mode-map (kbd "C-c C-a") 'align-cljlet)))
 
 (dolist (macro '(fresh conde run run* for-all defroutes describe it))
