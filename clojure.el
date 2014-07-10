@@ -33,16 +33,12 @@
 ;;                ))
 ;;     (font-lock-add-keywords nil x)))
 
-(defun reload-buffer-if-cider-running ()
-  (interactive)
-  (if (and (cider-connected-p) (string= "(ns " (buffer-substring-no-properties 1 5)))
-      (cider-load-current-buffer)))
 
 (add-hook 'clojure-mode-hook
           (lambda ()
 ;            (tweak-clojure-syntax)
             (add-hook 'write-contents-functions 'cleanup-buffer ) ; every time we save the file
-            (add-hook 'after-save-hook 'reload-buffer-if-cider-running nil 'make-local) ; every time we save the file
+            (add-hook 'after-save-hook 'make-local) ; every time we save the file
             (setq-default tab-width 2)
             (paredit-mode)
             (whitespace-mode)
