@@ -31,6 +31,7 @@
     auto-complete
     powerline
     smex
+    org
     dockerfile-mode
     markdown-mode))
 
@@ -159,6 +160,25 @@
 (require 'auto-complete-config)
 (ac-config-default)
 
+;;; org-mode
+(require 'org)
+(add-to-list 'auto-mode-alist '("\\.\\(org\\|org_archive\\|txt\\)$" . org-mode))
+
+;; org-mode standard key bindings
+(global-set-key "\C-cl" 'org-store-link)
+(global-set-key "\C-ca" 'org-agenda)
+(global-set-key "\C-cc" 'org-capture)
+(global-set-key "\C-cb" 'org-iswitchb)
+
+(setq org-log-done t
+      org-todo-keywords '((sequence "TODO" "INPROGRESS" "DONE"))
+      org-todo-keyword-faces '(("INPROGRESS" . (:foreground "blue" :weight bold))))
+
+(global-set-key (kbd "C-c a") 'org-agenda)
+(setq org-agenda-show-log t)
+(setq org-agenda-files (list "~/Dropbox/org/personal.org"
+                             "~/Dropbox/org/groupon.org"))
+
 ;; cleanup stuff.
 ;; stolen from abedra, who stole it from technomancy.
 ;; we're all just thieves, swiping in the dark.
@@ -261,6 +281,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(org-agenda-files (quote ("~/Dropbox/org/personal.org")))
  '(safe-local-variable-values (quote ((encoding . utf-8)))))
 
 (setq debug-on-error t)
