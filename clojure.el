@@ -38,7 +38,6 @@
           (lambda ()
 ;            (tweak-clojure-syntax)
             (add-hook 'write-contents-functions 'cleanup-buffer ) ; every time we save the file
-            (add-hook 'after-save-hook 'make-local) ; every time we save the file
             (setq-default tab-width 2)
             (paredit-mode)
             (whitespace-mode)
