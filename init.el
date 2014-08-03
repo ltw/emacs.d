@@ -31,6 +31,7 @@
     auto-complete
     powerline
     smex
+    dockerfile-mode
     markdown-mode))
 
 (dolist (p my-packages) (package-require p))
